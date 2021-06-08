@@ -9,7 +9,7 @@ defmodule DoIt.List do
   end
 
   @doc false
-  def changeset(list, attrs) do
+  def create_changeset(list, attrs) do
     list
     |> cast(attrs, [:title])
     |> validate_required([:title])
