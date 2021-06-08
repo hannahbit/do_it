@@ -22,7 +22,7 @@ defmodule DoItWeb.Router do
   scope "/api", DoItWeb do
     pipe_through :api
 
-    post "/list", ListController, :create
+    resources "/list", ListController, only: [:create, :show]
   end
 
   # Enables LiveDashboard only for development
