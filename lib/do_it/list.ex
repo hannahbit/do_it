@@ -13,5 +13,6 @@ defmodule DoIt.List do
     list
     |> cast(attrs, [:title])
     |> validate_required([:title])
+    |> validate_length(:title, min: 3, max: 100)
   end
 end
