@@ -19,10 +19,11 @@ defmodule DoItWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", DoItWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", DoItWeb do
+    pipe_through :api
+
+    post "/list", ListController, :create
+  end
 
   # Enables LiveDashboard only for development
   #
