@@ -24,6 +24,7 @@ defmodule DoItWeb.ListController do
       {:error, changeset} ->
         conn
         |> put_status(400)
+        |> put_view(DoItWeb.ErrorView)
         |> render("error.json", changeset: changeset)
     end
   end
