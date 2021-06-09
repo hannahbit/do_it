@@ -9,9 +9,10 @@ defmodule DoIt.List do
   end
 
   @doc false
-  def changeset(list, attrs) do
-    list
+  def create_changeset(attrs) do
+    %__MODULE__{}
     |> cast(attrs, [:title])
     |> validate_required([:title])
+    |> validate_length(:title, min: 3, max: 100)
   end
 end
