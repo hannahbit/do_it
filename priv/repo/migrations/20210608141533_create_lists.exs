@@ -7,6 +7,5 @@ defmodule DoIt.Repo.Migrations.CreateLists do
 
       timestamps()
     end
-
   end
 end
