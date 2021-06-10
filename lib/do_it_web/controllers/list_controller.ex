@@ -5,7 +5,7 @@ defmodule DoItWeb.ListController do
 
   def show(conn, %{"id" => id}) do
     case Repo.get(List, id) do
-      list = %List{} ->
+      %List{} = list ->
         conn
         |> put_status(200)
         |> render("show.json", list: list)
