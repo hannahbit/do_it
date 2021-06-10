@@ -20,5 +20,4 @@ defmodule DoIt.Repo do
     List.create_changeset(list, %{title: title})
     |> update()
   end
-
 end

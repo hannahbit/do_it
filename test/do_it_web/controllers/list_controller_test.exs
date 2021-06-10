@@ -40,9 +40,10 @@ defmodule DoItWeb.ListControllerTest do
     test "renders 400 if change is invalid", %{conn: conn} do
       {:ok, list} = Repo.insert(%List{title: "Hello"})
       conn = put(conn, Routes.list_path(conn, :update, list.id), title: "")
+
       assert json_response(conn, 400)["errors"] == %{
-        "title" => ["can't be blank"]
-      }
+               "title" => ["can't be blank"]
+             }
     end
 
     test "renders 200 if list exists and change is valid", %{conn: conn} do
