@@ -3,6 +3,7 @@ defmodule DoIt.List do
   import Ecto.Changeset
 
   schema "lists" do
+    has_many :todos, DoIt.Todo
     field :title, :string
 
     timestamps()
