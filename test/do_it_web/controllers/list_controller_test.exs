@@ -11,9 +11,7 @@ defmodule DoItWeb.ListControllerTest do
     end
 
     test "renders 404 error when list with that id does not exists", %{conn: conn} do
-      {:ok, list} = Repo.insert(%List{title: "Huhu"})
-      Repo.delete(list)
-      conn = get(conn, Routes.list_path(conn, :show, list.id))
+      conn = get(conn, Routes.list_path(conn, :show, 123786876))
       assert json_response(conn, 404) == "Not Found"
     end
   end
