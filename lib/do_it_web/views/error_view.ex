@@ -17,9 +17,7 @@ defmodule DoItWeb.ErrorView do
   def render("error.json", %{changeset: changeset}) do
     errors =
       Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
-        Enum.reduce(opts, msg, fn {key, value}, acc ->
-          String.replace(acc, "%{#{key}}", to_string(value))
-        end)
+        DoItWeb.ErrorHelpers.translate_error({msg, opts})
       end)
 
     %{errors: errors}
