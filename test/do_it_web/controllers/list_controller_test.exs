@@ -25,16 +25,16 @@ defmodule DoItWeb.ListControllerTest do
     test "renders error when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), title: "Go")
 
-      assert json_response(conn, 400)["errors"] == %{"title" => ["should be at least 3 character(s)"]}
+      assert json_response(conn, 422)["errors"] == %{"title" => ["should be at least 3 character(s)"]}
 
     end
   end
 
   describe "delete" do
-    test "responds with 200 after successful deletion", %{conn: conn} do
+    test "responds with 204 after successful deletion", %{conn: conn} do
       {:ok, list} = Repo.insert(%List{title: "Title"})
       conn = delete(conn, Routes.list_path(conn, :delete, list))
-      assert json_response(conn, 200)
+      assert response(conn, 204)
     end
 
     test "responds with 404 if no list is found", %{conn: conn} do
