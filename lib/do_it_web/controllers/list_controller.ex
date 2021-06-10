@@ -3,10 +3,19 @@ defmodule DoItWeb.ListController do
   alias DoIt.List
   alias DoIt.Repo
 
-  def show(conn, _params) do
-    list = %{title: "Foo"}
+  def show(conn, %{"id" => id}) do
+    case Repo.get(List, id) do
+      %List{} = list ->
+        conn
+        |> put_status(200)
+        |> render("show.json", list: list)
 
-    render(conn, "show.json", list: list)
+      nil ->
+        conn
+        |> put_status(404)
+        |> put_view(DoItWeb.ErrorView)
+        |> render("404.json")
+    end
   end
 
   def create(conn, params) do
