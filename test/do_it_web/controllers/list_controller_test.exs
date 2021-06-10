@@ -25,7 +25,7 @@ defmodule DoItWeb.ListControllerTest do
     test "renders error when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), title: "Go")
 
-      assert json_response(conn, 422)["errors"] == %{
+      assert json_response(conn, 400)["errors"] == %{
                "title" => ["should be at least 3 character(s)"]
              }
     end
