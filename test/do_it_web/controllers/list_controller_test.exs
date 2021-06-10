@@ -25,9 +25,31 @@ defmodule DoItWeb.ListControllerTest do
     test "renders error when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), title: "Go")
 
-      assert json_response(conn, 422)["errors"] == %{
+      assert json_response(conn, 400)["errors"] == %{
                "title" => ["should be at least 3 character(s)"]
              }
+    end
+  end
+
+  describe "update" do
+    test "renders 404 if list does not exist", %{conn: conn} do
+      conn = put(conn, Routes.list_path(conn, :update, 12_324), title: "Hello")
+      assert response(conn, 404)
+    end
+
+    test "renders 400 if change is invalid", %{conn: conn} do
+      {:ok, list} = Repo.insert(%List{title: "Hello"})
+      conn = put(conn, Routes.list_path(conn, :update, list.id), title: "")
+
+      assert json_response(conn, 400)["errors"] == %{
+               "title" => ["can't be blank"]
+             }
+    end
+
+    test "renders 200 if list exists and change is valid", %{conn: conn} do
+      {:ok, list} = Repo.insert(%List{title: "Hello"})
+      conn = put(conn, Routes.list_path(conn, :update, list.id), title: "New Title")
+      assert json_response(conn, 200)["data"] == %{"title" => "New Title"}
     end
   end
 
