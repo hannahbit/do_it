@@ -1,65 +1,28 @@
 defmodule DoItWeb.ListController do
   use DoItWeb, :controller
-  alias DoIt.List
   alias DoIt.Repo
+  action_fallback DoItWeb.FallbackController
 
   def show(conn, %{"id" => id}) do
-    case Repo.get(List, id) do
-      %List{} = list ->
-        conn
-        |> put_status(200)
-        |> render("show.json", list: list)
-
-      nil ->
-        conn
-        |> put_status(404)
-        |> put_view(DoItWeb.ErrorView)
-        |> render("404.json")
+    with {:ok, list} <- Repo.get_list(id) do
+      conn
+      |> put_status(200)
+      |> render("show.json", list: list)
     end
   end
 
   def create(conn, params) do
-    result =
-      params
-      |> List.create_changeset()
-      |> Repo.insert()
-
-    case result do
-      {:ok, list} ->
-        conn
-        |> put_status(200)
-        |> render("show.json", list: list)
-
-      {:error, changeset} ->
-        conn
-        |> put_status(400)
-        |> put_view(DoItWeb.ErrorView)
-        |> render("error.json", changeset: changeset)
+    with {:ok, list} <- Repo.create_list(params) do
+      conn
+      |> put_status(200)
+      |> render("show.json", list: list)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    case Repo.get(List, id) do
-      list = %List{} ->
-        case Repo.delete(list) do
-          {:ok, _struct} ->
-            conn
-            |> put_status(200)
-            |> put_view(DoItWeb.ErrorView)
-            |> render("200.json")
-
-          {:error, changeset} ->
-            conn
-            |> put_status(400)
-            |> put_view(DoItWeb.ErrorView)
-            |> render("error.json", changeset: changeset)
-        end
-
-      nil ->
-        conn
-        |> put_status(404)
-        |> put_view(DoItWeb.ErrorView)
-        |> render("404.json")
+    with {:ok, list} <- Repo.get_list(id),
+         {:ok, _list} <- Repo.delete(list) do
+      send_resp(conn, :no_content, "")
     end
   end
 end
