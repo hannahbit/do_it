@@ -2,7 +2,8 @@ defmodule DoIt.Repo do
   use Ecto.Repo,
     otp_app: :do_it,
     adapter: Ecto.Adapters.Postgres
-    alias DoIt.List
+
+  alias DoIt.List
 
   def get_list(id) do
     case get(List, id) do
