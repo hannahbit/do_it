@@ -5,18 +5,25 @@ defmodule DoItWeb.ListController do
 
   def show(conn, %{"id" => id}) do
     with {:ok, list} <- Repo.get_list(id) do
-      conn
-      |> put_status(200)
-      |> render("show.json", list: list)
+      display_list(conn, list)
     end
   end
 
   def create(conn, params) do
     with {:ok, list} <- Repo.create_list(params) do
-      conn
-      |> put_status(200)
-      |> render("show.json", list: list)
+      display_list(conn, list)
     end
+  end
+
+  def update(conn, %{"id" => id, "title" => title}) do
+    with {:ok, list} <- Repo.get_list(id),
+         {:ok, updated_list} <- Repo.update_list(list, title) do
+      display_list(conn, updated_list)
+    end
+  end
+
+  def update(conn, %{"id" => id}) do
+    update(conn, %{"id" => id, "title" => nil})
   end
 
   def delete(conn, %{"id" => id}) do
@@ -24,5 +31,11 @@ defmodule DoItWeb.ListController do
          {:ok, _list} <- Repo.delete(list) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  defp display_list(conn, list) do
+    conn
+    |> put_status(200)
+    |> render("show.json", list: list)
   end
 end
