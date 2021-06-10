@@ -28,4 +28,29 @@ defmodule DoItWeb.ListController do
         |> render("error.json", changeset: changeset)
     end
   end
+
+  def delete(conn, %{"id" => id}) do
+    case Repo.get(List, id) do
+      list = %List{} ->
+        case Repo.delete(list) do
+          {:ok, _struct} ->
+            conn
+            |> put_status(200)
+            |> put_view(DoItWeb.ErrorView)
+            |> render("200.json")
+
+          {:error, changeset} ->
+            conn
+            |> put_status(400)
+            |> put_view(DoItWeb.ErrorView)
+            |> render("error.json", changeset: changeset)
+        end
+
+      nil ->
+        conn
+        |> put_status(404)
+        |> put_view(DoItWeb.ErrorView)
+        |> render("404.json")
+    end
+  end
 end
