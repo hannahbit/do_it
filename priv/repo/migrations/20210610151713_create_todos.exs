@@ -5,7 +5,7 @@ defmodule DoIt.Repo.Migrations.CreateTodos do
     create table(:todos) do
       add :description, :string
       add :checked, :boolean, default: false, null: false
-      add :list_id, references(:lists, on_delete: :delete_all)
+      add :list_id, references(:lists, on_delete: :delete_all), null: false
 
       timestamps()
     end
