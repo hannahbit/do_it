@@ -6,6 +6,17 @@ defmodule DoItWeb.ListView do
   end
 
   def render("list.json", %{list: list}) do
-    %{title: list.title, id: list.id}
+    %{
+      id: list.id,
+      title: list.title,
+      todos: render_many(list.todos, DoItWeb.ListView, "todo.json", as: :todo)
+    }
+  end
+
+  def render("todo.json", %{todo: todo}) do
+    %{
+      description: todo.description,
+      done: todo.done
+    }
   end
 end
