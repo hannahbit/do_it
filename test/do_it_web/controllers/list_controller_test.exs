@@ -1,11 +1,9 @@
 defmodule DoItWeb.ListControllerTest do
   use DoItWeb.ConnCase
-  alias DoIt.List
-  alias DoIt.Repo
 
   describe "show" do
     test "renders list when list with that id exists", %{conn: conn} do
-      {:ok, list} = Repo.insert(%List{title: "Hello"})
+      list = insert(:list, %{title: "Hello"})
       conn = get(conn, Routes.list_path(conn, :show, list.id))
       assert json_response(conn, 200)["data"] == %{"title" => "Hello"}
     end
@@ -38,7 +36,7 @@ defmodule DoItWeb.ListControllerTest do
     end
 
     test "renders 400 if change is invalid", %{conn: conn} do
-      {:ok, list} = Repo.insert(%List{title: "Hello"})
+      list = insert(:list)
       conn = put(conn, Routes.list_path(conn, :update, list.id), title: "")
 
       assert json_response(conn, 400)["errors"] == %{
@@ -47,7 +45,7 @@ defmodule DoItWeb.ListControllerTest do
     end
 
     test "renders 200 if list exists and change is valid", %{conn: conn} do
-      {:ok, list} = Repo.insert(%List{title: "Hello"})
+      list = insert(:list)
       conn = put(conn, Routes.list_path(conn, :update, list.id), title: "New Title")
       assert json_response(conn, 200)["data"] == %{"title" => "New Title"}
     end
@@ -55,7 +53,7 @@ defmodule DoItWeb.ListControllerTest do
 
   describe "delete" do
     test "responds with 204 after successful deletion", %{conn: conn} do
-      {:ok, list} = Repo.insert(%List{title: "Title"})
+      list = insert(:list)
       conn = delete(conn, Routes.list_path(conn, :delete, list))
       assert response(conn, 204)
     end
