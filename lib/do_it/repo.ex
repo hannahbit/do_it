@@ -22,10 +22,6 @@ defmodule DoIt.Repo do
     |> update()
   end
 
-  def load_list_with_todos(list_id) do
-    {:ok, list} = get_list(list_id)
-    preload(list, :todos)
-  end
   def create_todo(params) do
     Todo.create_changeset(params) |> insert()
   end

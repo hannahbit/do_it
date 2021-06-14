@@ -5,14 +5,7 @@ defmodule DoItWeb.TodoController do
 
   def create(conn, params) do
     with {:ok, todo} <- Repo.create_todo(params) do
-      Repo.load_list_with_todos(todo.list_id) |> display_list(conn)
+      redirect(conn, to: Routes.list_path(conn, :show, todo.list_id))
     end
-  end
-
-  defp display_list(list, conn) do
-      conn
-      |> put_status(200)
-      |> put_view(DoItWeb.ListView)
-      |> render("show.json", list: list)
   end
 end
