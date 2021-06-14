@@ -13,11 +13,11 @@ defmodule DoIt.Repo do
   end
 
   def create_list(params) do
-    List.create_changeset(%List{}, params) |> insert()
+    List.changeset(%List{}, params) |> insert()
   end
 
   def update_list(list, title) do
-    List.create_changeset(list, %{title: title})
+    List.changeset(list, %{title: title})
     |> update()
   end
 end
