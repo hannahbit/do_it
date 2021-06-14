@@ -3,7 +3,7 @@ defmodule DoIt.Repo.Migrations.CreateLists do
 
   def change do
     create table(:lists) do
-      add :title, :string
+      add :title, :string, null: false
 
       timestamps()
     end
