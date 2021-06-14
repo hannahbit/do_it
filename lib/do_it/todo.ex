@@ -11,8 +11,8 @@ defmodule DoIt.Todo do
   end
 
   @doc false
-  def create_changeset(todo, attrs) do
-    todo
+  def create_changeset(attrs) do
+    %__MODULE__{}
     |> cast(attrs, [:description, :done, :list_id])
     |> validate_required([:description, :list_id])
     |> validate_length(:description, min: 3, max: 100)
