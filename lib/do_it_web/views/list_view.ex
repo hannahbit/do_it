@@ -6,6 +6,6 @@ defmodule DoItWeb.ListView do
   end
 
   def render("list.json", %{list: list}) do
-    %{title: list.title}
+    %{title: list.title, id: list.id}
   end
 end

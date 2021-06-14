@@ -4,6 +4,7 @@ defmodule DoIt.Repo do
     adapter: Ecto.Adapters.Postgres
 
   alias DoIt.List
+  alias DoIt.Todo
 
   def get_list(id) do
     case get(List, id) do
@@ -19,5 +20,13 @@ defmodule DoIt.Repo do
   def update_list(list, title) do
     List.changeset(list, %{title: title})
     |> update()
+  end
+
+  def load_list_with_todos(list_id) do
+    {:ok, list} = get_list(list_id)
+    preload(list, :todos)
+  end
+  def create_todo(params) do
+    Todo.create_changeset(params) |> insert()
   end
 end
