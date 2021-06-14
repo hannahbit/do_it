@@ -9,10 +9,10 @@ defmodule DoIt.Factory do
     }
   end
 
-  # def todo_factory do
-  #   %Todo{
-  #     description: "Water Plants",
-  #     list: build(:list)
-  #   }
-  # end
+  def todo_factory do
+    %Todo{
+      description: "Water Plants",
+      list: build(:list)
+    }
+  end
 end

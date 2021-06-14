@@ -23,6 +23,7 @@ defmodule DoItWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import DoItWeb.ConnCase
+      import DoIt.Factory
 
       alias DoItWeb.Router.Helpers, as: Routes
 
