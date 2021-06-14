@@ -3,8 +3,8 @@ defmodule DoIt.Repo.Migrations.CreateTodos do
 
   def change do
     create table(:todos) do
-      add :description, :string
-      add :checked, :boolean, default: false, null: false
+      add :description, :string, null: false
+      add :done, :boolean, default: false, null: false
       add :list_id, references(:lists, on_delete: :delete_all), null: false
 
       timestamps()

@@ -4,7 +4,7 @@ defmodule DoIt.Todo do
 
   schema "todos" do
     belongs_to :list, DoIt.List
-    field :checked, :boolean, default: false
+    field :done, :boolean, default: false
     field :description, :string
 
     timestamps()
@@ -13,7 +13,7 @@ defmodule DoIt.Todo do
   @doc false
   def create_changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:description, :checked])
+    |> cast(attrs, [:description, :done, :list_id])
     |> validate_required([:description, :list_id])
     |> validate_length(:description, min: 3, max: 100)
     |> assoc_constraint(:list)
