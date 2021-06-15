@@ -8,4 +8,12 @@ defmodule DoItWeb.ListView do
   def render("list.json", %{list: list}) do
     %{title: list.title}
   end
+
+  def render("todo.json", %{todo: todo}) do
+    %{
+      id: todo.id,
+      description: todo.description,
+      done: todo.done
+    }
+  end
 end

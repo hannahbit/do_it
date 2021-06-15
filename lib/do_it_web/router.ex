@@ -23,6 +23,8 @@ defmodule DoItWeb.Router do
     pipe_through :api
 
     resources "/list", ListController, except: [:edit, :new, :index]
+
+    patch "/todo/:id", TodoController, :check_done
   end
 
   # Enables LiveDashboard only for development
