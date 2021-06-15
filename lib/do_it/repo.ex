@@ -10,10 +10,7 @@ defmodule DoIt.Repo do
   ]
 
   def get_list(id) do
-    case get(List, id) do
-      nil -> {:error, :not_found}
-      %List{} = list -> {:ok, list}
-    end
+    get_record(List, id)
   end
 
   def create_list(params) do
@@ -25,6 +22,16 @@ defmodule DoIt.Repo do
     |> update()
   end
 
+  def get_todo(id) do
+    get_record(Todo, id)
+  end
+
+  def check_done(todo) do
+    todo
+    |> Ecto.Changeset.change(%{done: true})
+    |> update()
+  end
+
   def create_todo(params) do
     params
     |> Todo.create_changeset()
@@ -32,8 +39,16 @@ defmodule DoIt.Repo do
     |> handle_unexisting_list_error()
   end
 
+  defp get_record(module, id) do
+    case get(module, id) do
+      nil -> {:error, :not_found}
+      %^module{} = record -> {:ok, record}
+    end
+  end
+
   defp handle_unexisting_list_error(insert_return) do
     {status, result} = insert_return
+
     if Map.has_key?(result, :errors) && result.errors == @list_does_not_exist do
       {:error, :not_found}
     else
