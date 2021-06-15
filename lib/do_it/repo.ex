@@ -9,13 +9,6 @@ defmodule DoIt.Repo do
     list: {"does not exist", [constraint: :assoc, constraint_name: "todos_list_id_fkey"]}
   ]
 
-  def get_record(module, id) do
-    case get(module, id) do
-      nil -> {:error, :not_found}
-      record -> {:ok, record}
-    end
-  end
-
   def get_list(id) do
     get_record(List, id)
   end
@@ -44,6 +37,13 @@ defmodule DoIt.Repo do
     |> Todo.create_changeset()
     |> insert()
     |> handle_unexisting_list_error()
+  end
+
+  defp get_record(module, id) do
+    case get(module, id) do
+      nil -> {:error, :not_found}
+      %^module{} = record -> {:ok, record}
+    end
   end
 
   defp handle_unexisting_list_error(insert_return) do
