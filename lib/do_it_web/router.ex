@@ -26,7 +26,7 @@ defmodule DoItWeb.Router do
       resources "/todo", TodoController, only: [:create]
     end
 
-    patch "/todo/:id", TodoController, :check_done
+    patch "/todo/:id/done", TodoController, :check_done
   end
 
   # Enables LiveDashboard only for development
