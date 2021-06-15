@@ -5,7 +5,7 @@ defmodule DoItWeb.ListControllerTest do
     test "renders list when list with that id exists", %{conn: conn} do
       list = insert(:list, %{title: "Hello"})
       conn = get(conn, Routes.list_path(conn, :show, list.id))
-      assert json_response(conn, 200)["data"] == %{"title" => "Hello"}
+      assert json_response(conn, 200)["data"]["title"] == "Hello"
     end
 
     test "renders 404 error when list with that id does not exists", %{conn: conn} do
@@ -17,7 +17,7 @@ defmodule DoItWeb.ListControllerTest do
   describe "create" do
     test "renders list when data is valid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), title: "Good Title")
-      assert json_response(conn, 200)["data"] == %{"title" => "Good Title"}
+      assert json_response(conn, 200)["data"]["title"] == "Good Title"
     end
 
     test "renders error when data is invalid", %{conn: conn} do
@@ -47,7 +47,7 @@ defmodule DoItWeb.ListControllerTest do
     test "renders 200 if list exists and change is valid", %{conn: conn} do
       list = insert(:list)
       conn = put(conn, Routes.list_path(conn, :update, list.id), title: "New Title")
-      assert json_response(conn, 200)["data"] == %{"title" => "New Title"}
+      assert json_response(conn, 200)["data"]["title"] == "New Title"
     end
   end
 
