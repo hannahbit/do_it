@@ -25,6 +25,8 @@ defmodule DoItWeb.Router do
     resources "/list", ListController, except: [:edit, :new, :index] do
       resources "/todo", TodoController, only: [:create]
     end
+
+    resources "/todo", TodoController, only: [:update]
   end
 
   # Enables LiveDashboard only for development
