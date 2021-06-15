@@ -26,7 +26,7 @@ defmodule DoItWeb.TodoControllerTest do
       path = Routes.list_todo_path(conn, :create, list.id)
       conn = post(conn, path, @valid_description)
       todos = DoIt.Repo.preload(list, :todos).todos
-      assert Elixir.List.last(todos).description == @valid_description.description
+      assert List.last(todos).description == @valid_description.description
       assert redirected_to(conn) =~ "/api/list/#{list.id}"
     end
   end
