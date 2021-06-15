@@ -1,4 +1,5 @@
 defmodule DoIt.Todo do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
 
