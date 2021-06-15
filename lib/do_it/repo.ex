@@ -32,6 +32,12 @@ defmodule DoIt.Repo do
     end
   end
 
+  def check_done(todo) do
+    todo
+    |> Ecto.Changeset.change(%{done: true})
+    |> update()
+  end
+
   def create_todo(params) do
     params
     |> Todo.create_changeset()
@@ -41,6 +47,7 @@ defmodule DoIt.Repo do
 
   defp handle_unexisting_list_error(insert_return) do
     {status, result} = insert_return
+
     if Map.has_key?(result, :errors) && result.errors == @list_does_not_exist do
       {:error, :not_found}
     else

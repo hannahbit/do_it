@@ -18,7 +18,9 @@ defmodule DoItWeb.TodoControllerTest do
       assert response(conn, 400)
     end
 
-    test "saves todo and redirects to ListController#show when data valid and list exists", %{conn: conn} do
+    test "saves todo and redirects to ListController#show when data valid and list exists", %{
+      conn: conn
+    } do
       list = insert(:list)
       path = Routes.list_todo_path(conn, :create, list.id)
       conn = post(conn, path, @valid_description)
