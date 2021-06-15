@@ -22,6 +22,8 @@ defmodule DoIt.Repo do
   end
 
   def create_todo(params) do
-    Todo.create_changeset(params) |> insert()
+    params
+    |> Todo.create_changeset()
+    |> insert()
   end
 end
