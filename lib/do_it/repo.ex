@@ -9,11 +9,15 @@ defmodule DoIt.Repo do
     list: {"does not exist", [constraint: :assoc, constraint_name: "todos_list_id_fkey"]}
   ]
 
-  def get_list(id) do
-    case get(List, id) do
+  def get_record(module, id) do
+    case get(module, id) do
       nil -> {:error, :not_found}
-      %List{} = list -> {:ok, list}
+      record -> {:ok, record}
     end
+  end
+
+  def get_list(id) do
+    get_record(List, id)
   end
 
   def create_list(params) do
@@ -26,10 +30,7 @@ defmodule DoIt.Repo do
   end
 
   def get_todo(id) do
-    case get(Todo, id) do
-      nil -> {:error, :not_found}
-      %Todo{} = list -> {:ok, list}
-    end
+    get_record(Todo, id)
   end
 
   def check_done(todo) do
