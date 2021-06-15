@@ -12,11 +12,11 @@ defmodule DoItWeb.TodoController do
   def check_done(conn, %{"id" => id}) do
     with {:ok, todo} <- Repo.get_todo(id),
          {:ok, todo} <- Repo.check_done(todo) do
-      display_todo(conn, todo)
+      render_todo(conn, todo)
     end
   end
 
-  defp display_todo(conn, todo) do
+  defp render_todo(conn, todo) do
     conn
     |> put_status(200)
     |> put_view(DoItWeb.ListView)
