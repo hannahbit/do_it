@@ -1,4 +1,5 @@
 defmodule DoIt.Factory do
+  @moduledoc false
   use ExMachina.Ecto, repo: DoIt.Repo
   alias DoIt.List
   alias DoIt.Todo
