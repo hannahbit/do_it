@@ -35,6 +35,7 @@ defmodule DoItWeb.ListController do
 
   defp display_list(conn, list) do
     list = Repo.preload(list, :todos)
+
     conn
     |> put_status(200)
     |> render("show.json", list: list)
