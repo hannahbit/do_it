@@ -26,6 +26,12 @@ defmodule DoIt.Repo do
     get_record(Todo, id)
   end
 
+  def update_todo(todo, params) do
+    todo
+    |> Todo.update_changeset(params)
+    |> update()
+  end
+
   def check_done(todo) do
     todo
     |> Ecto.Changeset.change(%{done: true})
