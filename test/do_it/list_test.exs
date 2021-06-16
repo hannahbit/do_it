@@ -2,7 +2,7 @@ defmodule DoIt.ListTest do
   use DoIt.DataCase, async: true
   alias DoIt.List
 
-  @long_title "This is a very long title. It is longer than onehundred characters. This is really very long. Who would give their todo list such a long title?"
+  @long_title String.duplicate("a", 101)
 
   test "title must be at least three characters long" do
     changeset = List.changeset(%List{}, %{title: "In"})
