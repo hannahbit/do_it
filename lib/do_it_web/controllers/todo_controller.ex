@@ -14,4 +14,18 @@ defmodule DoItWeb.TodoController do
 
   #   end
   # end
+
+  def check_done(conn, %{"id" => id}) do
+    with {:ok, todo} <- Repo.get_todo(id),
+         {:ok, todo} <- Repo.check_done(todo) do
+      render_todo(conn, todo)
+    end
+  end
+
+  defp render_todo(conn, todo) do
+    conn
+    |> put_status(200)
+    |> put_view(DoItWeb.ListView)
+    |> render("todo.json", todo: todo)
+  end
 end
