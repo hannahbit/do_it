@@ -1,5 +1,7 @@
 defmodule DoItWeb.TodoControllerTest do
   use DoItWeb.ConnCase
+  alias DoIt.Repo
+  alias DoIt.Todo
 
   @valid_description %{description: "Wash dishes"}
   @invalid_description %{description: ""}
@@ -70,6 +72,23 @@ defmodule DoItWeb.TodoControllerTest do
                "description" => todo.description,
                "id" => todo.id
              }
+    end
+  end
+
+  describe "delete" do
+    test "renders 404 if todo does not exist", %{conn: conn} do
+      todo_count = Repo.aggregate(Todo, :count)
+      conn = delete(conn, Routes.todo_path(conn, :delete, 123))
+      assert response(conn, 404)
+      assert Repo.aggregate(Todo, :count) == todo_count
+    end
+
+    test "renders 204 if todo exists and is successfully deleted", %{conn: conn} do
+      todo = insert(:todo)
+      todo_count = Repo.aggregate(Todo, :count)
+      conn = delete(conn, Routes.todo_path(conn, :delete, todo.id))
+      assert response(conn, 204)
+      assert Repo.aggregate(Todo, :count) == todo_count - 1
     end
   end
 end

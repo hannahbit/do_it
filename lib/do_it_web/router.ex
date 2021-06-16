@@ -26,7 +26,7 @@ defmodule DoItWeb.Router do
       resources "/todo", TodoController, only: [:create]
     end
 
-    resources "/todo", TodoController, only: [:update]
+    resources "/todo", TodoController, only: [:update, :delete]
     patch "/todo/:id/done", TodoController, :check_done
   end
 
