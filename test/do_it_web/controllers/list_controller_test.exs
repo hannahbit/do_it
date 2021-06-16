@@ -1,7 +1,7 @@
 defmodule DoItWeb.ListControllerTest do
   use DoItWeb.ConnCase
 
-  @valid_title %{title: "My List"}
+  @valid_title params_for(:list)
   @too_short_title %{title: "Go"}
 
   defp insert_list(_context) do
