@@ -47,4 +47,17 @@ defmodule DoItWeb.TodoControllerTest do
              }
     end
   end
+
+  describe "delete" do
+    test "renders 404 if todo does not exist", %{conn: conn} do
+      conn = delete(conn, Routes.todo_path(conn, :delete, 123))
+      assert response(conn, 404)
+    end
+
+    test "renders 204 if todo exists and is successfully deleted", %{conn: conn} do
+      todo = insert(:todo)
+      conn = delete(conn, Routes.todo_path(conn, :delete, todo.id))
+      assert response(conn, 204)
+    end
+  end
 end
