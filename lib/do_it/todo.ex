@@ -23,6 +23,7 @@ defmodule DoIt.Todo do
   def update_changeset(todo, attrs) do
     todo
     |> cast(attrs, [:description, :done])
+    |> validate_required([:description])
     |> validate_length(:description, min: 3, max: 100)
   end
 end
