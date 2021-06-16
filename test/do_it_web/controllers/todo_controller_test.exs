@@ -3,6 +3,7 @@ defmodule DoItWeb.TodoControllerTest do
 
   @valid_description %{description: "Wash dishes"}
   @invalid_description %{description: ""}
+  @valid_update_params %{description: "Wash dishes", done: true}
 
   describe "create" do
     test "renders 404 when list does not exist", %{conn: conn} do
@@ -27,6 +28,30 @@ defmodule DoItWeb.TodoControllerTest do
       todos = DoIt.Repo.preload(list, :todos).todos
       assert List.last(todos).description == @valid_description.description
       assert redirected_to(conn) =~ "/api/list/#{list.id}"
+    end
+  end
+
+  describe "update" do
+    test "renders 404 when todo does not exist", %{conn: conn} do
+      conn = patch(conn, Routes.todo_path(conn, :update, 123))
+      assert response(conn, 404)
+    end
+
+    test "renders 400 if updated description is invalid", %{conn: conn} do
+      todo = insert(:todo)
+      conn = patch(conn, Routes.todo_path(conn, :update, todo.id), @invalid_description)
+      assert response(conn, 400)
+    end
+
+    test "renders 200 and shows updated todo if params are valid", %{conn: conn} do
+      todo = insert(:todo)
+      conn = patch(conn, Routes.todo_path(conn, :update, todo.id), @valid_update_params)
+
+      assert json_response(conn, 200) == %{
+               "done" => @valid_update_params.done,
+               "description" => @valid_update_params.description,
+               "id" => todo.id
+             }
     end
   end
 
