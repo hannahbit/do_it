@@ -16,6 +16,13 @@ defmodule DoItWeb.TodoController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    with {:ok, todo} <- Repo.get_todo(id),
+         {:ok, _todo} <- Repo.delete(todo) do
+      send_resp(conn, :no_content, "")
+    end
+  end
+
   defp render_todo(conn, todo) do
     conn
     |> put_status(200)
