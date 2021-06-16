@@ -19,10 +19,6 @@ defmodule DoItWeb.TodoControllerTest do
     %{todo: insert(:todo)}
   end
 
-  defp count_todos(_context) do
-    %{todo_count: Repo.aggregate(Todo, :count)}
-  end
-
   describe "create" do
     setup [:insert_list, :get_create_list_path]
 
@@ -93,22 +89,21 @@ defmodule DoItWeb.TodoControllerTest do
   end
 
   describe "delete" do
-    setup [:insert_todo, :count_todos]
+    setup [:insert_todo]
 
-    test "renders 404 if todo does not exist", %{conn: conn, todo_count: todo_count} do
+    test "renders 404 if todo does not exist", %{conn: conn} do
       conn = delete(conn, Routes.todo_path(conn, :delete, 123))
       assert response(conn, 404)
-      assert Repo.aggregate(Todo, :count) == todo_count
+      assert Repo.aggregate(Todo, :count) == 1
     end
 
     test "renders 204 if todo exists and is successfully deleted", %{
       conn: conn,
-      todo: todo,
-      todo_count: todo_count
+      todo: todo
     } do
       conn = delete(conn, Routes.todo_path(conn, :delete, todo.id))
       assert response(conn, 204)
-      assert Repo.aggregate(Todo, :count) == todo_count - 1
+      assert Repo.all(Todo) == []
     end
   end
 end
