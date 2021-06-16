@@ -19,4 +19,10 @@ defmodule DoIt.Todo do
     |> validate_length(:description, min: 3, max: 100)
     |> assoc_constraint(:list)
   end
+
+  def update_changeset(todo, attrs) do
+    todo
+    |> cast(attrs, [:description, :done])
+    |> validate_length(:description, min: 3, max: 100)
+  end
 end

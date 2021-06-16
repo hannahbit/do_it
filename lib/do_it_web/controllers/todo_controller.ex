@@ -9,11 +9,12 @@ defmodule DoItWeb.TodoController do
     end
   end
 
-  # def update(conn, params) do
-  #   with {:ok, todo} <- Repo.get_todo() do
-
-  #   end
-  # end
+  def update(conn, params) do
+    with {:ok, todo} <- Repo.get_todo(params["id"]),
+         {:ok, todo} <- Repo.update_todo(todo, params) do
+      render_todo(conn, todo)
+    end
+  end
 
   def check_done(conn, %{"id" => id}) do
     with {:ok, todo} <- Repo.get_todo(id),
