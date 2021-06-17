@@ -11,7 +11,6 @@ defmodule DoItWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    # plug :basic_auth
     plug :basic_auth, Application.compile_env(:do_it, :basic_auth)
   end
 
