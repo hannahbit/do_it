@@ -3,18 +3,35 @@ defmodule DoItWeb.ListControllerTest do
 
   @valid_title params_for(:list)
   @too_short_title %{title: "Go"}
+  @valid_authentication "Basic " <> Base.encode64("hello:secret")
+  @invalid_authentication "Basic " <> Base.encode64("wrong:wrong")
 
   defp insert_list(_context) do
     %{list: insert(:list)}
   end
 
-  defp put_authorisation(%{conn: conn}) do
-    conn = put_req_header(conn, "authorization", "Basic " <> Base.encode64("hello:secret"))
+  defp put_authorization(%{conn: conn}) do
+    conn = put_req_header(conn, "authorization", @valid_authentication)
     %{conn: conn}
   end
 
+  describe "authentication" do
+    test "renders 401 when authentication is wrong", %{conn: conn} do
+      conn = conn
+      |> put_req_header("authorization", @invalid_authentication)
+      |> get(Routes.list_path(conn, :show, 1))
+
+      assert response(conn, 401) =~ "Unauthorized"
+    end
+
+    test "renders 401 wenn authentication is missing", %{conn: conn} do
+      conn = get(conn, Routes.list_path(conn, :show, 1))
+      assert response(conn, 401) =~ "Unauthorized"
+    end
+  end
+
   describe "show" do
-    setup [:put_authorisation, :insert_list]
+    setup [:put_authorization, :insert_list]
 
     test "renders list when list with that id exists", %{conn: conn, list: list} do
       conn = get(conn, Routes.list_path(conn, :show, list.id))
@@ -28,7 +45,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "create" do
-    setup [:put_authorisation]
+    setup [:put_authorization]
 
     test "renders list when data is valid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), @valid_title)
@@ -45,7 +62,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "update" do
-    setup [:put_authorisation, :insert_list]
+    setup [:put_authorization, :insert_list]
 
     test "renders 404 if list does not exist", %{conn: conn} do
       conn = put(conn, Routes.list_path(conn, :update, 12_324), @valid_title)
@@ -67,7 +84,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "delete" do
-    setup [:put_authorisation, :insert_list]
+    setup [:put_authorization, :insert_list]
 
     test "responds with 204 after successful deletion", %{conn: conn, list: list} do
       conn = delete(conn, Routes.list_path(conn, :delete, list))
