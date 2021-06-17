@@ -48,7 +48,6 @@ defmodule DoItWeb do
 
       import Plug.Conn
       import Phoenix.Controller
-      import Plug.BasicAuth
     end
   end
 

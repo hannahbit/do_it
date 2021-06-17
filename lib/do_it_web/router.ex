@@ -1,5 +1,6 @@
 defmodule DoItWeb.Router do
   use DoItWeb, :router
+  import Plug.BasicAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,7 +12,6 @@ defmodule DoItWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    # plug :basic_auth
     plug :basic_auth, Application.compile_env(:do_it, :basic_auth)
   end
 
