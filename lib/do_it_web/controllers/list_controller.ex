@@ -38,6 +38,6 @@ defmodule DoItWeb.ListController do
 
     conn
     |> put_status(200)
-    |> render("show.json", list: list)
+    |> render(:show, list: list)
   end
 end

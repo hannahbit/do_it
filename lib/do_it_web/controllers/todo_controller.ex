@@ -5,7 +5,7 @@ defmodule DoItWeb.TodoController do
 
   def create(conn, params) do
     with {:ok, todo} <- Repo.create_todo(params) do
-      redirect(conn, to: Routes.list_path(conn, :show, todo.list_id))
+      redirect(conn, to: Routes.api_list_path(conn, :show, todo.list_id))
     end
   end
 
