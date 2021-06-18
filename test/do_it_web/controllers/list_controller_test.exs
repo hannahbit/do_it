@@ -22,6 +22,24 @@ defmodule DoItWeb.ListControllerTest do
     end
   end
 
+  describe "html request: show" do
+    setup :insert_list
+
+    test "renders list when list with that id exists", %{conn: conn, list: list} do
+      conn = get(conn, Routes.list_path(conn, :show, list.id))
+      list = DoIt.Repo.preload(list, :todos)
+      assert html_response(conn, 200) =~ list.title
+      for todo <- list.todos do
+        assert html_response(conn, 200) =~ todo.description
+      end
+    end
+
+    test "renders 'Not Found' when list with that id does not exists", %{conn: conn} do
+      conn = get(conn, Routes.list_path(conn, :show, 123_786_876))
+      assert html_response(conn, 404) =~ "Not Found"
+    end
+  end
+
   describe "create" do
     setup [:put_authorization]
 
