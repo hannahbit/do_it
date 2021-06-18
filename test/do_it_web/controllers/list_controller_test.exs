@@ -3,15 +3,9 @@ defmodule DoItWeb.ListControllerTest do
 
   @valid_title params_for(:list)
   @too_short_title %{title: "Go"}
-  @valid_authentication "Basic " <> Base.encode64("hello:secret")
 
   defp insert_list(_context) do
     %{list: insert(:list)}
-  end
-
-  defp put_authorization(%{conn: conn}) do
-    conn = put_req_header(conn, "authorization", @valid_authentication)
-    %{conn: conn}
   end
 
   describe "show" do

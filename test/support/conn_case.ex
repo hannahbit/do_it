@@ -41,4 +41,9 @@ defmodule DoItWeb.ConnCase do
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  def put_authorization(%{conn: conn}) do
+    conn = Plug.Conn.put_req_header(conn, "authorization", "Basic " <> Base.encode64("hello:secret"))
+    %{conn: conn}
+  end
 end
