@@ -26,17 +26,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-user_password =
-  System.get_env("USERPASSWORD") ||
-    raise """
-    environment variable USERPASSWORD is missing.
-    You can generate one by calling: mix phx.gen.secret
-    """
-
-config :do_it, :basic_auth,
-  username: "hello",
-  password: user_password
-
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
