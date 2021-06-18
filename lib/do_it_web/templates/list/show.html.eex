@@ -1,0 +1,12 @@
+<section class="list">
+    <h2> <%= @list.title %> </h1>
+
+    <ul class="todos">
+        <%= for todo <- @list.todos do %>
+            <li>
+                <%= if todo.done, do: "🌈", else: "🟨" %>
+                <%= todo.description %>
+            </li>
+        <% end %>
+    </ul>
+</section>
