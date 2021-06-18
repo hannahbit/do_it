@@ -20,7 +20,7 @@ defmodule DoItWeb.TodoControllerTest do
   end
 
   describe "create" do
-    setup [:insert_list, :get_create_list_path]
+    setup [:put_authorization, :insert_list, :get_create_list_path]
 
     test "renders 404 when list does not exist", %{conn: conn} do
       path = Routes.list_todo_path(conn, :create, 461_212)
@@ -46,7 +46,7 @@ defmodule DoItWeb.TodoControllerTest do
   end
 
   describe "update" do
-    setup :insert_todo
+    setup [:put_authorization, :insert_todo]
 
     test "renders 404 when todo does not exist", %{conn: conn} do
       conn = patch(conn, Routes.todo_path(conn, :update, 123))
@@ -70,7 +70,7 @@ defmodule DoItWeb.TodoControllerTest do
   end
 
   describe "check_done" do
-    setup :insert_todo
+    setup [:put_authorization, :insert_todo]
 
     test "renders 404 if there is no todo with that id", %{conn: conn} do
       conn = patch(conn, Routes.todo_path(conn, :check_done, 123))
@@ -89,7 +89,7 @@ defmodule DoItWeb.TodoControllerTest do
   end
 
   describe "delete" do
-    setup [:insert_todo]
+    setup [:put_authorization, :insert_todo]
 
     test "renders 404 if todo does not exist", %{conn: conn} do
       conn = delete(conn, Routes.todo_path(conn, :delete, 123))

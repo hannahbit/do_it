@@ -4,6 +4,15 @@
 # remember to add this file to your .gitignore.
 use Mix.Config
 
+user_password =
+  System.get_env("USERPASSWORD") ||
+    raise """
+    environment variable USERPASSWORD is missing.
+    You can generate one by calling: mix phx.gen.secret
+    """
+
+config :do_it, :basic_auth, username: "hello", password: user_password
+
 database_url =
   System.get_env("DATABASE_URL") ||
     raise """

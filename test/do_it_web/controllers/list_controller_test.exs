@@ -9,7 +9,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "show" do
-    setup :insert_list
+    setup [:put_authorization, :insert_list]
 
     test "renders list when list with that id exists", %{conn: conn, list: list} do
       conn = get(conn, Routes.list_path(conn, :show, list.id))
@@ -23,6 +23,8 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "create" do
+    setup [:put_authorization]
+
     test "renders list when data is valid", %{conn: conn} do
       conn = post(conn, Routes.list_path(conn, :create), @valid_title)
       assert json_response(conn, 200)["data"]["title"] == @valid_title.title
@@ -38,7 +40,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "update" do
-    setup :insert_list
+    setup [:put_authorization, :insert_list]
 
     test "renders 404 if list does not exist", %{conn: conn} do
       conn = put(conn, Routes.list_path(conn, :update, 12_324), @valid_title)
@@ -60,7 +62,7 @@ defmodule DoItWeb.ListControllerTest do
   end
 
   describe "delete" do
-    setup :insert_list
+    setup [:put_authorization, :insert_list]
 
     test "responds with 204 after successful deletion", %{conn: conn, list: list} do
       conn = delete(conn, Routes.list_path(conn, :delete, list))
