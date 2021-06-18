@@ -12,12 +12,12 @@ defmodule DoItWeb.ListControllerTest do
     setup [:put_authorization, :insert_list]
 
     test "renders list when list with that id exists", %{conn: conn, list: list} do
-      conn = get(conn, Routes.list_path(conn, :show, list.id))
+      conn = get(conn, Routes.api_list_path(conn, :show, list.id))
       assert json_response(conn, 200)["data"]["title"] == list.title
     end
 
     test "renders 404 error when list with that id does not exists", %{conn: conn} do
-      conn = get(conn, Routes.list_path(conn, :show, 123_786_876))
+      conn = get(conn, Routes.api_list_path(conn, :show, 123_786_876))
       assert json_response(conn, 404) == "Not Found"
     end
   end
@@ -26,12 +26,12 @@ defmodule DoItWeb.ListControllerTest do
     setup [:put_authorization]
 
     test "renders list when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.list_path(conn, :create), @valid_title)
+      conn = post(conn, Routes.api_list_path(conn, :create), @valid_title)
       assert json_response(conn, 200)["data"]["title"] == @valid_title.title
     end
 
     test "renders error when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.list_path(conn, :create), @too_short_title)
+      conn = post(conn, Routes.api_list_path(conn, :create), @too_short_title)
 
       assert json_response(conn, 400)["errors"] == %{
                "title" => ["should be at least 3 character(s)"]
@@ -43,12 +43,12 @@ defmodule DoItWeb.ListControllerTest do
     setup [:put_authorization, :insert_list]
 
     test "renders 404 if list does not exist", %{conn: conn} do
-      conn = put(conn, Routes.list_path(conn, :update, 12_324), @valid_title)
+      conn = put(conn, Routes.api_list_path(conn, :update, 12_324), @valid_title)
       assert response(conn, 404)
     end
 
     test "renders 400 if change is invalid", %{conn: conn, list: list} do
-      conn = put(conn, Routes.list_path(conn, :update, list.id), title: "")
+      conn = put(conn, Routes.api_list_path(conn, :update, list.id), title: "")
 
       assert json_response(conn, 400)["errors"] == %{
                "title" => ["can't be blank"]
@@ -56,7 +56,7 @@ defmodule DoItWeb.ListControllerTest do
     end
 
     test "renders 200 if list exists and change is valid", %{conn: conn, list: list} do
-      conn = put(conn, Routes.list_path(conn, :update, list.id), title: "New Title")
+      conn = put(conn, Routes.api_list_path(conn, :update, list.id), title: "New Title")
       assert json_response(conn, 200)["data"]["title"] == "New Title"
     end
   end
@@ -65,12 +65,12 @@ defmodule DoItWeb.ListControllerTest do
     setup [:put_authorization, :insert_list]
 
     test "responds with 204 after successful deletion", %{conn: conn, list: list} do
-      conn = delete(conn, Routes.list_path(conn, :delete, list))
+      conn = delete(conn, Routes.api_list_path(conn, :delete, list))
       assert response(conn, 204)
     end
 
     test "responds with 404 if no list is found", %{conn: conn} do
-      conn = delete(conn, Routes.list_path(conn, :delete, 4))
+      conn = delete(conn, Routes.api_list_path(conn, :delete, 4))
       assert json_response(conn, 404)
     end
   end

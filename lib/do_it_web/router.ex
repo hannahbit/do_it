@@ -19,9 +19,10 @@ defmodule DoItWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/list", ListController, only: [:show]
   end
 
-  scope "/api", DoItWeb do
+  scope "/api", DoItWeb, as: :api do
     pipe_through :api
 
     resources "/list", ListController, except: [:edit, :new, :index] do
